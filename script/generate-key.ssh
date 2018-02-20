@@ -1,0 +1,7 @@
+SERVER_KEYSTORE_DIR=../server/src/main/resources/config
+SERVER_KEYSTORE=$SERVER_KEYSTORE_DIR/server-keystore.p12
+SERVER_KEY_PASSWORD=server
+SERVER_STORE_PASSWORD=server
+SERVER_DN="CN=Server,OU=Server,O=test,L=Portland,S=OR,C=US"
+
+keytool -genkeypair -alias server -keyalg RSA -keysize 2048 -dname $SERVER_DN -storetype PKCS12 -keypass $SERVER_KEY_PASSWORD -keystore $SERVER_KEYSTORE -storepass $SERVER_STORE_PASSWORD -validity 3650

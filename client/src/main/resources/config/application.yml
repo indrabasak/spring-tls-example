@@ -3,6 +3,6 @@ server:
 
 client:
   book:
-    url: http://localhost:7080
+    url: https://localhost:8443
     connection-timeout: 1000
     read-timeout: 1000

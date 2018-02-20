@@ -1,8 +1,10 @@
 package com.basaki.server.config;
 
 import com.basaki.server.ServerApplication;
+import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,14 +35,27 @@ public class SwaggerConfigurationFunctionalTests {
     @Value("${local.server.port}")
     private Integer port;
 
+    @Value("${server.ssl.key-store}")
+    private String pathToJks;
+
+    @Value("${server.ssl.key-store-password}")
+    private String password;
+
     @Autowired
     ApplicationContext context;
+
+    @Before
+    public void startUp() {
+        RestAssured.useRelaxedHTTPSValidation();
+        RestAssured.config().getSSLConfig()
+                .with().keyStore(pathToJks, password);
+    }
 
     @Test
     public void testApi() {
         Response response = given()
                 .contentType(ContentType.JSON)
-                .baseUri("http://localhost")
+                .baseUri("https://localhost")
                 .port(port)
                 .contentType(ContentType.JSON)
                 .get("/v2/api-docs?group=book");

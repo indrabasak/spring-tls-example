@@ -1,5 +1,5 @@
-server:
-  port: 7080
+#server:
+#  port: 7080
 
 
 # For Spring Actuator /info endpoint
@@ -45,6 +45,13 @@ management:
 #    org.springframework: DEBUG
 
 
-
+# Enable SSL
+server:
+  port: 8443
+  ssl:
+    key-store-type: PKCS12
+    key-store: classpath:config/server-keystore.p12
+    key-store-password: server
+    key-alias: server
 
 

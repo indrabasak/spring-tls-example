@@ -1,13 +1,15 @@
 package com.basaki.server.controller;
 
+import com.basaki.server.ServerApplication;
 import com.basaki.server.data.entity.Book;
 import com.basaki.server.model.BookRequest;
-import com.basaki.server.ServerApplication;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import java.io.IOException;
 import java.util.UUID;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,13 +44,26 @@ public class BookControllerFunctionalTests {
     @Qualifier("customObjectMapper")
     private ObjectMapper objectMapper;
 
+    @Value("${server.ssl.key-store}")
+    private String pathToJks;
+
+    @Value("${server.ssl.key-store-password}")
+    private String password;
+
+    @Before
+    public void startUp() {
+        RestAssured.useRelaxedHTTPSValidation();
+        RestAssured.config().getSSLConfig()
+                .with().keyStore(pathToJks, password);
+    }
+
     @Test
     public void testCreateAndRead() throws IOException {
         BookRequest bookRequest = new BookRequest("Indra's Chronicle", "Indra");
 
         Response response = given()
                 .contentType(ContentType.JSON)
-                .baseUri("http://localhost")
+                .baseUri("https://localhost")
                 .port(port)
                 .contentType(ContentType.JSON)
                 .body(bookRequest)
@@ -64,7 +79,7 @@ public class BookControllerFunctionalTests {
         assertEquals(bookRequest.getAuthor(), bookCreate.getAuthor());
 
         response = given()
-                .baseUri("http://localhost")
+                .baseUri("https://localhost")
                 .port(port)
                 .contentType(ContentType.JSON)
                 .get("/books/" + bookCreate.getId().toString());
@@ -84,7 +99,7 @@ public class BookControllerFunctionalTests {
     @Test
     public void testDataNotFoundRead() {
         Response response = given()
-                .baseUri("http://localhost")
+                .baseUri("https://localhost")
                 .port(port)
                 .contentType(ContentType.JSON)
                 .get("/books/" + UUID.randomUUID().toString());
