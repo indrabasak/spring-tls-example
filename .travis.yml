@@ -1,4 +1,3 @@
-# Travis Build File
 language: java
 jdk:
 - oraclejdk8
@@ -15,3 +14,6 @@ notifications:
   on_success: change
   on_failure: always
   use_notice: true
+env:
+  global:
+    secure: pITC6fkn4HylK8QH1jSAhjX/g/ih/HuoBxt9a9dkoH3k/sriPtqccnRQ+RNfEEui8zsltKIDd3p8xCCkbLXbq1CzaiB48LfcwM2KwV4ilkzgtsLUtn1HPg86KDkw6Q+37Cdiud/CtLEQ7TP/tnX7fiIbWb4m/aFG+ESmrwL/cjuw4WkVFTHhXsCWB5l3ftFDjIU+vnwfC++vcr8RMNyUk3zdhC6C1u7Hf4CPi6aHRQkL9xk2uncfB/islS5WAAdNl8W06mxoJsRdGI7JGaQX1EWnZey84Ac1AO9ljPCgUounEiS8gNerPgPlKtjI1/6bilhsC8N6/mfoYZCKgRwLvGMeRpjzdJwOo2aVHCzXuTg/cVMYztY8NrA/iLFGEhdjF/9cPo1690z5Y0sT1y5BnKQ3xy0uGV10ytanYwdBEFW6F1N0757qtBBHgU4i7kc6GGD7XpkZ+945LSxziTmMFZuLxGaGOyVy0W46sXy3dYRwQXByNEnLsS0a7cbqg/U2TfksP8/+QKjpmQWMRi1hJsDb+C1D+sUGxMMTuNCIuIfwFwvUWuqJ+BKgp4Vqu0ih3AdvvNk8+fXqnRkgrCgMgDlOTYfSh5fDM7hIAuiJb5lrMrahhr23NOIpG6J2IMBdZcrUoZMUxZVYGh4m16tSXhoHBVZFjuxFCfAy/18AJSY=
