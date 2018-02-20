@@ -1,0 +1,50 @@
+server:
+  port: 7080
+
+
+# For Spring Actuator /info endpoint
+info:
+    artifact: spring-tls-server
+    name: spring-tls-server
+    description: Spring TLS Server Example
+    version: 1.0.0
+
+#management:
+#  security:
+#    enabled: false
+#  health:
+#    consul:
+#      enabled: false   # must be false to pass /health check
+
+#Exposes Spring actuator endpoints
+management:
+  health:
+    diskspace:
+      enabled: true
+    db:
+      enabled: true
+    defaults:
+      enabled: true
+    details:
+      enabled: true
+    application:
+      enabled: true
+  endpoint:
+    health:
+      enabled: true
+      show-details: true
+  endpoints:
+    web:
+      base-path: /
+      expose: "*"
+
+
+
+#logging:
+#  level:
+#    org.springframework: DEBUG
+
+
+
+
+
