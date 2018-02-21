@@ -14,7 +14,7 @@ import lombok.Getter;
 public class DataNotFoundException extends RuntimeException {
 
     @Getter
-    private final ErrorInfo errorInfo;
+    private final transient ErrorInfo errorInfo;
 
     public DataNotFoundException(ErrorInfo errorInfo) {
         this.errorInfo = errorInfo;
