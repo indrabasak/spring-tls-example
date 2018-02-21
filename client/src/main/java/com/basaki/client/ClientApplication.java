@@ -1,13 +1,18 @@
 package com.basaki.client;
 
-import com.basaki.client.service.ClientBookProperties;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.ComponentScan;
 
+/**
+ * {@code ClientApplication} represents the entry point for the Spring
+ * boot application example on client tier.
+ * <p/>
+ *
+ * @author Indra Basak
+ * @since 02/19/18
+ */
 @SpringBootApplication
-@EnableConfigurationProperties({ClientBookProperties.class})
 @ComponentScan(basePackages = {"com.basaki.client"})
 public class ClientApplication {
 

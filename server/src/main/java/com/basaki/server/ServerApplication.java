@@ -5,8 +5,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
 /**
- * {@code BookApplication} represents the entry point for the Spring
- * boot application example.
+ * {@code ServerApplication} represents the entry point for the Spring
+ * boot application example on server tier.
  * <p/>
  *
  * @author Indra Basak

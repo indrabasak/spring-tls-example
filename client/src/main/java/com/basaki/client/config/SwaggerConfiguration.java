@@ -13,6 +13,13 @@ import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
+/**
+ * {@code SwaggerConfiguration} configures Swagger UI.
+ * <p/>
+ *
+ * @author Indra Basak
+ * @since 02/19/18
+ */
 @Configuration
 @EnableSwagger2
 @SuppressWarnings({"squid:CallToDeprecatedMethod"})
