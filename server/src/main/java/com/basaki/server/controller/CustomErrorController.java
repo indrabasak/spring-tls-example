@@ -34,7 +34,7 @@ public class CustomErrorController implements ErrorController {
     private static final String PATH = "/error";
 
     @Value("${debug:true}")
-    private boolean debug;
+    private String debug;
 
     private ErrorAttributes errorAttributes;
 
@@ -47,7 +47,8 @@ public class CustomErrorController implements ErrorController {
     ErrorInfo error(HttpServletRequest request, HttpServletResponse response) {
         ErrorInfo info = new ErrorInfo();
         info.setCode(response.getStatus());
-        Map<String, Object> attributes = getErrorAttributes(request, debug);
+        Map<String, Object> attributes =
+                getErrorAttributes(request, Boolean.getBoolean(debug));
         info.setMessage((String) attributes.get("message"));
         log.error((String) attributes.get("error"));
 

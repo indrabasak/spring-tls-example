@@ -6,6 +6,7 @@ server:
     trust-store-password: client
     key-store-type: PKCS12
     key-store: classpath:config/client-keystore.p12
+    key-password: client
     key-store-password: client
     key-alias: client
 

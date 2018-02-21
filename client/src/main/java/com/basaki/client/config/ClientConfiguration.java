@@ -1,5 +1,6 @@
 package com.basaki.client.config;
 
+import com.basaki.client.error.CustomErrorHandler;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -46,15 +47,27 @@ public class ClientConfiguration {
 
     private String trustStorePassword;
 
+    private Resource keyStore;
+
+    private String keyStorePassword;
+
+    private String keyPassword;
+
     @Autowired
     public ClientConfiguration(ObjectMapper objectMapper,
             ClientBookProperties properties,
             @Value("${server.ssl.trust-store}") Resource trustStore,
-            @Value("${server.ssl.trust-store-password}") String trustStorePassword) {
+            @Value("${server.ssl.trust-store-password}") String trustStorePassword,
+            @Value("${server.ssl.key-store}") Resource keyStore,
+            @Value("${server.ssl.key-store-password}") String keyStorePassword,
+            @Value("${server.ssl.key-password}") String keyPassword) {
         this.objectMapper = objectMapper;
         this.properties = properties;
         this.trustStore = trustStore;
         this.trustStorePassword = trustStorePassword;
+        this.keyStore = keyStore;
+        this.keyStorePassword = keyStorePassword;
+        this.keyPassword = keyPassword;
     }
 
     @Bean
@@ -68,6 +81,7 @@ public class ClientConfiguration {
                         new MappingJackson2HttpMessageConverter(objectMapper),
                         new StringHttpMessageConverter())
                 .requestFactory(requestFactory())
+                .errorHandler(new CustomErrorHandler(objectMapper))
                 .build();
     }
 
@@ -83,25 +97,39 @@ public class ClientConfiguration {
         return () -> requestFactory;
     }
 
+    /**
+     * Creates a HTTP client which doesn't perform any host name verification
+     * in case of TLS connection.
+     * <p/>
+     * {@code SSLConnectionSocketFactory.getDefaultHostnameVerifier()}
+     * tries to match the server host name with the cn (common name) in
+     * dn (distinguished name) of the server certificate. It's not used as it
+     * is very restrictive.
+     *
+     * @return a HTTP client used for communicating with the server
+     * @throws IOException
+     * @throws GeneralSecurityException
+     */
     private HttpClient httpClient() throws IOException, GeneralSecurityException {
         HttpClientBuilder builder = HttpClients.custom();
 
         String scheme = properties.getScheme().toUpperCase();
         if (scheme.equals("HTTPS")) {
-            //  load truststore containing certificates that are trusted
+            //  load trust store containing certificates that are trusted
+            // and the key store
             SSLContext sslcontext =
-                    SSLContexts.custom().loadTrustMaterial(
-                            trustStore.getFile(),
-                            trustStorePassword.toCharArray()).build();
+                    SSLContexts.custom()
+                            .loadTrustMaterial(trustStore.getFile(),
+                                    trustStorePassword.toCharArray())
+                            .loadKeyMaterial(keyStore.getFile(),
+                                    keyStorePassword.toCharArray(),
+                                    keyPassword.toCharArray())
+                            .build();
 
-            //SSLConnectionSocketFactory.getDefaultHostnameVerifier()
             SSLConnectionSocketFactory socketFactory =
                     new SSLConnectionSocketFactory(sslcontext,
                             // don't verify server name
                             new NoopHostnameVerifier());
-                            // tries to match the server host name with the
-                            // cn in dn of the server key
-                            // SSLConnectionSocketFactory.getDefaultHostnameVerifier());
             builder.setSSLSocketFactory(socketFactory);
         } else {
             builder.setSSLHostnameVerifier(new NoopHostnameVerifier());
