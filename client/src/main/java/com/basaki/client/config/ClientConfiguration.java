@@ -97,7 +97,11 @@ public class ClientConfiguration {
             //SSLConnectionSocketFactory.getDefaultHostnameVerifier()
             SSLConnectionSocketFactory socketFactory =
                     new SSLConnectionSocketFactory(sslcontext,
+                            // don't verify server name
                             new NoopHostnameVerifier());
+                            // tries to match the server host name with the
+                            // cn in dn of the server key
+                            // SSLConnectionSocketFactory.getDefaultHostnameVerifier());
             builder.setSSLSocketFactory(socketFactory);
         } else {
             builder.setSSLHostnameVerifier(new NoopHostnameVerifier());
