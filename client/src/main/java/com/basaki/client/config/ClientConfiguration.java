@@ -104,11 +104,10 @@ public class ClientConfiguration {
      * {@code SSLConnectionSocketFactory.getDefaultHostnameVerifier()}
      * tries to match the server host name with the cn (common name) in
      * dn (distinguished name) of the server certificate. It's not used as it
-     * is very restrictive.
+     * is very restrictive. Where as {@code NoopHostnameVerifier()} is in the
+     * other extreme. It doesn't verify host name at all.
      *
      * @return a HTTP client used for communicating with the server
-     * @throws IOException
-     * @throws GeneralSecurityException
      */
     private HttpClient httpClient() throws IOException, GeneralSecurityException {
         HttpClientBuilder builder = HttpClients.custom();
@@ -128,8 +127,7 @@ public class ClientConfiguration {
 
             SSLConnectionSocketFactory socketFactory =
                     new SSLConnectionSocketFactory(sslcontext,
-                            // don't verify server name
-                            new NoopHostnameVerifier());
+                            new CustomHostnameVerifier());
             builder.setSSLSocketFactory(socketFactory);
         } else {
             builder.setSSLHostnameVerifier(new NoopHostnameVerifier());
