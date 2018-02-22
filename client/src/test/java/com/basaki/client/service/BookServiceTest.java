@@ -21,6 +21,7 @@ import org.springframework.test.web.client.MockRestServiceServer;
 import org.springframework.web.client.RestTemplate;
 
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.content;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.method;
@@ -101,6 +102,7 @@ public class BookServiceTest {
         assertNotNull(result);
         assertThat(result.getTitle()).isEqualTo(book.getTitle());
         assertThat(result.getAuthor()).isEqualTo(book.getAuthor());
+        assertEquals(book, result);
     }
 
     @Test(expected = DataNotFoundException.class)
