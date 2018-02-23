@@ -16,6 +16,7 @@
 
     <properties>
         <httpclient.version>4.5.5</httpclient.version>
+        <wiremock.version>2.15.0</wiremock.version>
     </properties>
 
     <dependencies>
@@ -31,9 +32,9 @@
         </dependency>
 
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>${junit.version}</version>
+            <groupId>com.github.tomakehurst</groupId>
+            <artifactId>wiremock-standalone</artifactId>
+            <version>${wiremock.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>

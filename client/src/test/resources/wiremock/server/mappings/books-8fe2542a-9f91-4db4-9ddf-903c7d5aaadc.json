@@ -1,0 +1,19 @@
+{
+  "id" : "8fe2542a-9f91-4db4-9ddf-903c7d5aaadc",
+  "name" : "books",
+  "request" : {
+    "url" : "/books",
+    "method" : "POST"
+  },
+  "response" : {
+    "status" : 201,
+    "body" : "{\"id\":\"1d826450-4160-4aed-ad73-fa9d1cc2e611\",\"title\":\"Indra's Chronicle\",\"author\":\"Indra\"}",
+    "headers" : {
+      "Content-Type" : "application/json;charset=UTF-8",
+      "Date" : "Fri, 23 Feb 2018 03:16:43 GMT"
+    }
+  },
+  "uuid" : "8fe2542a-9f91-4db4-9ddf-903c7d5aaadc",
+  "persistent" : true,
+  "insertionIndex" : 1
+}
