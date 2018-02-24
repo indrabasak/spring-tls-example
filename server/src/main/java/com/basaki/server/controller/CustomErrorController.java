@@ -36,7 +36,7 @@ public class CustomErrorController implements ErrorController {
     @Value("${debug:true}")
     private String debug;
 
-    private ErrorAttributes errorAttributes;
+    private final ErrorAttributes errorAttributes;
 
     @Autowired
     public CustomErrorController(ErrorAttributes errorAttributes) {

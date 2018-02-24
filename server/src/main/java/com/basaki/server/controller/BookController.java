@@ -29,7 +29,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Api(value = "Book Service", produces = "application/json", tags = {"1"})
 public class BookController {
 
-    private BookService service;
+    private final BookService service;
 
     @Autowired
     public BookController(BookService service) {

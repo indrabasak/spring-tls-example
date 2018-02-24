@@ -20,7 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class BookService {
 
-    private BookRepository repository;
+    private final BookRepository repository;
 
     @Autowired
     public BookService(BookRepository repository) {

@@ -26,7 +26,6 @@ import static org.junit.Assert.assertNotNull;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.content;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.method;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.requestTo;
-import static org.springframework.test.web.client.response.MockRestResponseCreators.withServerError;
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withStatus;
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withSuccess;
 
@@ -107,8 +106,6 @@ public class BookServiceTest {
 
     @Test(expected = DataNotFoundException.class)
     public void testReadNotFound() throws Exception {
-        String bookJson = objectMapper.writeValueAsString(book);
-
         ErrorInfo info = new ErrorInfo();
         info.setCode(HttpStatus.NOT_FOUND.value());
         info.setMessage("Book not found!");

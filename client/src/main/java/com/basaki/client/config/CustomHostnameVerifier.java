@@ -48,7 +48,7 @@ public class CustomHostnameVerifier implements HostnameVerifier {
         return true;
     }
 
-    static String extractCN(String dnString) throws SSLException {
+    private static String extractCN(String dnString) throws SSLException {
         try {
             LdapName dn = new LdapName(dnString);
             List<Rdn> rdns = dn.getRdns();

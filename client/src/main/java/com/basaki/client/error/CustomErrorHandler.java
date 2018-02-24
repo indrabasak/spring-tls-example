@@ -16,7 +16,7 @@ import org.springframework.web.client.DefaultResponseErrorHandler;
  */
 public class CustomErrorHandler extends DefaultResponseErrorHandler {
 
-    private ObjectMapper objectMapper;
+    private final ObjectMapper objectMapper;
 
     public CustomErrorHandler(ObjectMapper objectMapper) {
         this.objectMapper = objectMapper;

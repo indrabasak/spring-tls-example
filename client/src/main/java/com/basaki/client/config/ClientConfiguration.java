@@ -39,19 +39,19 @@ import org.springframework.web.client.RestTemplate;
 @EnableConfigurationProperties({ClientBookProperties.class})
 public class ClientConfiguration {
 
-    private ObjectMapper objectMapper;
+    private final ObjectMapper objectMapper;
 
-    private ClientBookProperties properties;
+    private final ClientBookProperties properties;
 
-    private Resource trustStore;
+    private final Resource trustStore;
 
-    private String trustStorePassword;
+    private final String trustStorePassword;
 
-    private Resource keyStore;
+    private final Resource keyStore;
 
-    private String keyStorePassword;
+    private final String keyStorePassword;
 
-    private String keyPassword;
+    private final String keyPassword;
 
     @Autowired
     public ClientConfiguration(ObjectMapper objectMapper,
