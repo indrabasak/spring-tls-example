@@ -57,6 +57,7 @@ public class SwaggerConfiguration {
     private ApiInfo apiInfo() {
         Contact contact = new Contact("Indra Basak", "",
                 "indra@basak.com");
+
         return new ApiInfo(TITLE, DESCRIPTION, "1.0.0",
                 "terms of service url",
                 contact, "license", "license url",
