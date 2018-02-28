@@ -26,4 +26,8 @@ public class ClientBookProperties {
     private int connectionTimeout = 1000;
 
     private int readTimeout = 1000;
+
+    private String username;
+
+    private String password;
 }

@@ -16,12 +16,10 @@ import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.ssl.SSLContexts;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.io.Resource;
 import org.springframework.http.client.ClientHttpRequestFactory;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.http.converter.StringHttpMessageConverter;
@@ -36,38 +34,22 @@ import org.springframework.web.client.RestTemplate;
  * @since 02/20/18
  */
 @Configuration
-@EnableConfigurationProperties({ClientBookProperties.class})
+@EnableConfigurationProperties({ClientBookProperties.class, SslProperties.class})
 public class ClientConfiguration {
 
     private final ObjectMapper objectMapper;
 
     private final ClientBookProperties properties;
 
-    private final Resource trustStore;
-
-    private final String trustStorePassword;
-
-    private final Resource keyStore;
-
-    private final String keyStorePassword;
-
-    private final String keyPassword;
+    private final SslProperties sslProperties;
 
     @Autowired
     public ClientConfiguration(ObjectMapper objectMapper,
             ClientBookProperties properties,
-            @Value("${server.ssl.trust-store}") Resource trustStore,
-            @Value("${server.ssl.trust-store-password}") String trustStorePassword,
-            @Value("${server.ssl.key-store}") Resource keyStore,
-            @Value("${server.ssl.key-store-password}") String keyStorePassword,
-            @Value("${server.ssl.key-password}") String keyPassword) {
+            SslProperties sslProperties) {
         this.objectMapper = objectMapper;
         this.properties = properties;
-        this.trustStore = trustStore;
-        this.trustStorePassword = trustStorePassword;
-        this.keyStore = keyStore;
-        this.keyStorePassword = keyStorePassword;
-        this.keyPassword = keyPassword;
+        this.sslProperties = sslProperties;
     }
 
     @Bean
@@ -76,6 +58,8 @@ public class ClientConfiguration {
         RestTemplateBuilder builder = new RestTemplateBuilder();
 
         return builder
+                .basicAuthorization(properties.getUsername(),
+                        properties.getPassword())
                 .rootUri(clientURI())
                 .messageConverters(
                         new MappingJackson2HttpMessageConverter(objectMapper),
@@ -118,11 +102,13 @@ public class ClientConfiguration {
             // and the key store
             SSLContext sslcontext =
                     SSLContexts.custom()
-                            .loadTrustMaterial(trustStore.getFile(),
-                                    trustStorePassword.toCharArray())
-                            .loadKeyMaterial(keyStore.getFile(),
-                                    keyStorePassword.toCharArray(),
-                                    keyPassword.toCharArray())
+                            .loadTrustMaterial(
+                                    sslProperties.getTrustStore().getFile(),
+                                    sslProperties.getTrustStorePassword().toCharArray())
+                            .loadKeyMaterial(
+                                    sslProperties.getKeyStore().getFile(),
+                                    sslProperties.getKeyStorePassword().toCharArray(),
+                                    sslProperties.getKeyPassword().toCharArray())
                             .build();
 
             SSLConnectionSocketFactory socketFactory =

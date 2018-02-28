@@ -21,9 +21,10 @@
         <lombok.version>1.16.20</lombok.version>
         <mockito.version>2.13.0</mockito.version>
         <netty.version>4.1.12.Final</netty.version>
+        <powermock.version>2.0.0-beta.5</powermock.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <spring.boot.version>2.0.0.RC1</spring.boot.version>
+        <spring.boot.version>2.0.0.RC2</spring.boot.version>
         <swagger.version>2.8.0</swagger.version>
     </properties>
 
@@ -96,6 +97,19 @@
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
             <version>${mockito.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.powermock</groupId>
+            <artifactId>powermock-api-mockito2</artifactId>
+            <version>${powermock.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.powermock</groupId>
+            <artifactId>powermock-module-junit4</artifactId>
+            <version>${powermock.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>

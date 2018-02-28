@@ -32,7 +32,7 @@ management:
   endpoint:
     health:
       enabled: true
-      show-details: true
+#      show-details: true
   endpoints:
     web:
       base-path: /
@@ -55,3 +55,24 @@ server:
     key-alias: server
 
 
+# Setup security
+security:
+  auth:
+    endpoints:
+      endpoint1:
+        path: /books
+        methods: POST
+        roles: BOOK_WRITE
+      endpoint2:
+        path: /books/**
+        methods: GET
+        roles: BOOK_WRITE, BOOK_READ
+    users:
+      userA:
+        encoding: bcrypt
+        password: $2a$10$n5v7onFOS0h2V2oLmyqK9uJdZRHpIghP2rFia86ALodCUfEwm4rme
+        roles: BOOK_WRITE, BOOK_READ
+      userB:
+        encoding: bcrypt
+        password: $2a$10$8nznpBdaZ/v19Os5v02iAOkJg0IJW5bo2uj1p3U2rd4icfmqB/dRy
+        roles: BOOK_READ

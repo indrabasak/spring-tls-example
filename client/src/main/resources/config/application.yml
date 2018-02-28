@@ -17,3 +17,5 @@ client:
     port: 8443
     connection-timeout: 1000
     read-timeout: 1000
+    username: userA
+    password: passwordA

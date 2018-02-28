@@ -10,8 +10,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
 
@@ -24,8 +24,8 @@ import org.hibernate.annotations.GenericGenerator;
  */
 @Entity
 @Table(name = "book")
-@Data
-@NoArgsConstructor
+@Getter
+@Setter
 @ApiModel(value = "Book")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Book implements Serializable {

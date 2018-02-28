@@ -1,4 +1,5 @@
 server:
+  port: 9081
   ssl:
     trust-store-type: PKCS12
     trust-store: classpath:config/client-keystore.p12
