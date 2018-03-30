@@ -31,8 +31,7 @@ management:
       enabled: true
   endpoint:
     health:
-      enabled: true
-#      show-details: true
+      show-details: always
   endpoints:
     web:
       base-path: /

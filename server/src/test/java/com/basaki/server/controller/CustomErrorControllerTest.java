@@ -9,6 +9,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.web.servlet.error.ErrorAttributes;
+import org.springframework.http.ResponseEntity;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -60,7 +61,10 @@ public class CustomErrorControllerTest {
         when(errorAttributes.getErrorAttributes(any(WebRequest.class),
                 anyBoolean())).thenReturn(attributes);
 
-        ErrorInfo errorInfo = controller.error(request, response);
+        ResponseEntity<ErrorInfo>
+                entity = controller.error(request, response);
+        assertNotNull(entity);
+        ErrorInfo errorInfo = entity.getBody();
         assertNotNull(errorInfo);
         assertEquals("test-message", errorInfo.getMessage());
         assertNotNull(controller.getErrorPath());

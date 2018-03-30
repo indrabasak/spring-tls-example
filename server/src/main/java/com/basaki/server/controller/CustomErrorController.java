@@ -10,6 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.servlet.error.ErrorAttributes;
 import org.springframework.boot.web.servlet.error.ErrorController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.web.firewall.RequestRejectedException;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.ServletWebRequest;
@@ -44,27 +47,32 @@ public class CustomErrorController implements ErrorController {
     }
 
     @RequestMapping(value = PATH)
-    ErrorInfo error(HttpServletRequest request, HttpServletResponse response) {
+    public ResponseEntity<ErrorInfo> error(HttpServletRequest request,
+            HttpServletResponse response) {
+        WebRequest webRequest =
+                new ServletWebRequest(request);
+        Map<String, Object> attributes =
+                errorAttributes.getErrorAttributes(webRequest,
+                        Boolean.getBoolean(debug));
+
         ErrorInfo info = new ErrorInfo();
         info.setCode(response.getStatus());
-        Map<String, Object> attributes =
-                getErrorAttributes(request, Boolean.getBoolean(debug));
         info.setMessage((String) attributes.get("message"));
         log.error((String) attributes.get("error"));
 
-        return info;
+        HttpStatus statusCode = HttpStatus.valueOf(response.getStatus());
+
+        Throwable error = errorAttributes.getError(webRequest);
+        if (error instanceof RequestRejectedException) {
+            info.setCode(HttpStatus.BAD_REQUEST.value());
+            statusCode = HttpStatus.BAD_REQUEST;
+        }
+
+        return new ResponseEntity<>(info, statusCode);
     }
 
     @Override
     public String getErrorPath() {
         return PATH;
-    }
-
-    private Map<String, Object> getErrorAttributes(HttpServletRequest request,
-            boolean includeStackTrace) {
-        WebRequest webRequest =
-                new ServletWebRequest(request);
-        return errorAttributes.getErrorAttributes(webRequest,
-                includeStackTrace);
     }
 }
