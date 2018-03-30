@@ -12,6 +12,7 @@ import org.springframework.boot.web.servlet.error.ErrorAttributes;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
+import org.springframework.security.web.firewall.RequestRejectedException;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.context.request.WebRequest;
@@ -68,5 +69,28 @@ public class CustomErrorControllerTest {
         assertNotNull(errorInfo);
         assertEquals("test-message", errorInfo.getMessage());
         assertNotNull(controller.getErrorPath());
+    }
+
+    @Test
+    public void testErrorWithException() {
+        Map<String, Object> attributes = new HashMap<>();
+        attributes.put("message", "test-message");
+        attributes.put("error", "test-error");
+
+        when(errorAttributes.getErrorAttributes(any(WebRequest.class),
+                anyBoolean())).thenReturn(attributes);
+
+        RequestRejectedException exp =
+                new RequestRejectedException("Just a test.");
+        when(errorAttributes.getError(any(WebRequest.class))).thenReturn(exp);
+
+        ResponseEntity<ErrorInfo>
+                entity = controller.error(request, response);
+        assertNotNull(entity);
+        ErrorInfo errorInfo = entity.getBody();
+        assertNotNull(errorInfo);
+        assertEquals("test-message", errorInfo.getMessage());
+        assertNotNull(controller.getErrorPath());
+        assertEquals(400, errorInfo.getCode());
     }
 }
