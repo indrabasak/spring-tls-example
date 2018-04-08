@@ -7,6 +7,7 @@ import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.security.GeneralSecurityException;
+import java.security.KeyStore;
 import java.util.function.Supplier;
 import javax.net.ssl.SSLContext;
 import org.apache.http.client.HttpClient;
@@ -20,6 +21,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.Resource;
 import org.springframework.http.client.ClientHttpRequestFactory;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.http.converter.StringHttpMessageConverter;
@@ -103,11 +105,14 @@ public class ClientConfiguration {
             SSLContext sslcontext =
                     SSLContexts.custom()
                             .loadTrustMaterial(
-                                    sslProperties.getTrustStore().getFile(),
-                                    sslProperties.getTrustStorePassword().toCharArray())
+                                    creatKeyStore(sslProperties.getTrustStore(),
+                                            sslProperties.getTrustStoreType(),
+                                            sslProperties.getTrustStorePassword()),
+                                    null)
                             .loadKeyMaterial(
-                                    sslProperties.getKeyStore().getFile(),
-                                    sslProperties.getKeyStorePassword().toCharArray(),
+                                    creatKeyStore(sslProperties.getKeyStore(),
+                                            sslProperties.getKeyStoreType(),
+                                            sslProperties.getKeyStorePassword()),
                                     sslProperties.getKeyPassword().toCharArray())
                             .build();
 
@@ -120,6 +125,14 @@ public class ClientConfiguration {
         }
 
         return builder.build();
+    }
+
+    private KeyStore creatKeyStore(Resource resource, String storeType,
+            String password) throws IOException, GeneralSecurityException {
+        KeyStore ks = KeyStore.getInstance(storeType);
+        ks.load(resource.getInputStream(), password.toCharArray());
+
+        return ks;
     }
 
     private String clientURI() throws URISyntaxException, MalformedURLException {

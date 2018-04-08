@@ -21,9 +21,13 @@ public class SslProperties {
 
     private String trustStorePassword;
 
+    private String trustStoreType;
+
     private Resource keyStore;
 
     private String keyStorePassword;
 
     private String keyPassword;
+
+    private String keyStoreType;
 }
