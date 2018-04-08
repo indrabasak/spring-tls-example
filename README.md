@@ -106,14 +106,17 @@ to validate the identity of the HTTPS server against a list of trusted
 certificates stored in the **trust-store**.   
 
 ```
-SSLContext sslcontext =
-  SSLContexts.custom()
-      .loadTrustMaterial(
-          creatKeyStore(sslProperties.getTrustStore(),
-              sslProperties.getTrustStoreType(),
-              sslProperties.getTrustStorePassword()),
-          null)
-      .build();
+private HttpClient httpClient() throws IOException, GeneralSecurityException {
+    SSLContext sslcontext =
+        SSLContexts.custom()
+            .loadTrustMaterial(
+                creatKeyStore(sslProperties.getTrustStore(),
+                    sslProperties.getTrustStoreType(),
+                    sslProperties.getTrustStorePassword()),
+                null)
+            .build();
+    ...        
+}            
 ```
 
 The client rejects any connection during the TLS handshake if the HTTPS
@@ -122,15 +125,18 @@ The client rejects any connection during the TLS handshake if the HTTPS
 Configuring `keystore` in SSL context is **optional**.
 
 ```
-SSLContext sslcontext =
-  SSLContexts.custom()
-      ...
-      .loadKeyMaterial(
-          creatKeyStore(sslProperties.getKeyStore(),
-              sslProperties.getKeyStoreType(),
-              sslProperties.getKeyStorePassword()),
-          sslProperties.getKeyPassword().toCharArray())
-      .build();
+private HttpClient httpClient() throws IOException, GeneralSecurityException {
+    SSLContext sslcontext =
+        SSLContexts.custom()
+            ...
+            .loadKeyMaterial(
+                creatKeyStore(sslProperties.getKeyStore(),
+                    sslProperties.getKeyStoreType(),
+                    sslProperties.getKeyStorePassword()),
+                sslProperties.getKeyPassword().toCharArray())
+            .build();
+    ...        
+}           
 ```
  
 Here is the code for method `creatKeyStore`:
@@ -151,13 +157,16 @@ Once the SSL context is created, create the connection factory with the
 newly created SSL context and the `NoopHostnameVerifier`. 
 
 ```
-SSLConnectionSocketFactory socketFactory =
-    new SSLConnectionSocketFactory(sslcontext, new NoopHostnameVerifier());
+private HttpClient httpClient() throws IOException, GeneralSecurityException {
+    ... 
+    SSLConnectionSocketFactory socketFactory =
+        new SSLConnectionSocketFactory(sslcontext, new NoopHostnameVerifier());
             
-HttpClientBuilder builder = HttpClients.custom();           
-builder.setSSLSocketFactory(socketFactory);
+    HttpClientBuilder builder = HttpClients.custom();           
+    builder.setSSLSocketFactory(socketFactory);
 
-HttpClient client = builder.build();
+    return builder.build();
+}
  ```     
  
 The `SSLConnectionSocketFactory.getDefaultHostnameVerifier()` is not used
@@ -171,15 +180,21 @@ name at all.
 Here is the code snippet for creating the `RestTemplate`:
 
 ```
-RestTemplateBuilder builder = new RestTemplateBuilder();
-RestTemplate template = 
-    builder.basicAuthorization(properties.getUsername(), properties.getPassword())
-        .rootUri(clientURI())
-        .messageConverters(new MappingJackson2HttpMessageConverter(objectMapper),
-             new StringHttpMessageConverter())
-        .requestFactory(requestFactory())
-        .errorHandler(new CustomErrorHandler(objectMapper))
-        .build();
+@Bean
+public RestTemplate restTemplate() throws IOException, URISyntaxException,
+    GeneralSecurityException {
+    RestTemplateBuilder builder = new RestTemplateBuilder();
+    
+    return builder.basicAuthorization(properties.getUsername(), 
+                       properties.getPassword())
+                  .rootUri(clientURI())
+                  .messageConverters(
+                       new MappingJackson2HttpMessageConverter(objectMapper),
+                       new StringHttpMessageConverter())
+                  .requestFactory(requestFactory())
+                  .errorHandler(new CustomErrorHandler(objectMapper))
+                  .build();
+}                  
 ...
 
 private Supplier<ClientHttpRequestFactory> requestFactory() throws
