@@ -105,7 +105,7 @@ Here is an example of creating a secured `SSLContext` which is used
 to validate the identity of the HTTPS server against a list of trusted 
 certificates stored in the **trust-store**.   
 
-```
+```java
 private HttpClient httpClient() throws IOException, GeneralSecurityException {
     SSLContext sslcontext =
         SSLContexts.custom()
@@ -124,7 +124,7 @@ The client rejects any connection during the TLS handshake if the HTTPS
  
 Configuring `keystore` in SSL context is **optional**.
 
-```
+```java
 private HttpClient httpClient() throws IOException, GeneralSecurityException {
     SSLContext sslcontext =
         SSLContexts.custom()
@@ -141,7 +141,7 @@ private HttpClient httpClient() throws IOException, GeneralSecurityException {
  
 Here is the code for method `creatKeyStore`:
  
- ```
+ ```java
     private KeyStore creatKeyStore(Resource resource, String storeType,
             String password) throws IOException, GeneralSecurityException {
         KeyStore ks = KeyStore.getInstance(storeType);
@@ -156,7 +156,7 @@ Here is the code for method `creatKeyStore`:
 Once the SSL context is created, create the connection factory with the
 newly created SSL context and the `NoopHostnameVerifier`. 
 
-```
+```java
 private HttpClient httpClient() throws IOException, GeneralSecurityException {
     ... 
     SSLConnectionSocketFactory socketFactory =
@@ -179,7 +179,7 @@ name at all.
 
 Here is the code snippet for creating the `RestTemplate`:
 
-```
+```java
 @Bean
 public RestTemplate restTemplate() throws IOException, URISyntaxException,
     GeneralSecurityException {
@@ -195,7 +195,6 @@ public RestTemplate restTemplate() throws IOException, URISyntaxException,
                   .errorHandler(new CustomErrorHandler(objectMapper))
                   .build();
 }                  
-...
 
 private Supplier<ClientHttpRequestFactory> requestFactory() throws
             IOException, GeneralSecurityException {
@@ -250,7 +249,7 @@ folder.
 ### Run Server
 To start the server, run the executable jar from the command:
 
-```
+```bash
 java -jar server/target/spring-tls-server-1.0.0.jar
 
 ...
@@ -270,7 +269,7 @@ the server swagger UI page at `https://localhost:8443/swagger-ui.html`.
 ### Run Client
 Similarly, run the executable jar from the command to start the client:
 
-```
+```bash
 java -jar client/target/spring-tls-client-1.0.0.jar
 
 ...
