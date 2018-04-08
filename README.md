@@ -24,7 +24,7 @@ using symmetric cryptography.
 Java **keytool** is a key and certificate management utility. It allows users to
 do the following:
 
-1. Create and manage their won **public/private key pairs** and **certificates**.
+1. Create and manage their own **public/private key pairs** and **certificates**.
 A **certificate** contains the **public key** (and some other information) 
 used for authentication.
 
@@ -39,7 +39,7 @@ it is located under:
  `/Library/Java/JavaVirtualMachines/jdk1.8.0_162.jdk/Contents/Home/bin`
 
 The `generate-key.ssh` shell script under `script` folder can be executed to
-create keys and certificates. It does the folloeing:
+create keys and certificates. It does the following:
 
 1. Generate a **RSA 2048 public/private key pairs** for the server and store 
 in the the server **keystore** of type `PKCS12`. The server keystore,
@@ -58,7 +58,7 @@ created in the `script` folder.
 1. Import the server certificate, `server-public.cer` in the client's 
 keystore, `client-keystore.p12`.
 
-1. Import the client certificate, `client-public.cer` in the client's 
+1. Import the client certificate, `server-public.cer` in the client's 
    keystore, `server-keystore.p12`(optional for TLS).
    
 ### Configure TLS (SSL) in Spring Boot Server
@@ -148,7 +148,7 @@ Here is the code for method `creatKeyStore`:
 #### Create HttpClient
 
 Once the SSL context is created, create the connection factory with the
-newly creates SSL context and the `NoopHostnameVerifier`. 
+newly created SSL context and the `NoopHostnameVerifier`. 
 
 ```
 SSLConnectionSocketFactory socketFactory =
@@ -161,9 +161,9 @@ HttpClient client = builder.build();
  ```     
  
 The `SSLConnectionSocketFactory.getDefaultHostnameVerifier()` is not used
-since it tries to match the server host name with the CN (common name) in the
-DN (distinguished name) provided in the server certificate. It's not used as it
-is very restrictive. Where as `NoopHostnameVerifier()` doesn't verify host 
+since it tries to match the server host name with the CN (common name) RDN 
+in the DN (distinguished name) provided in the server certificate. It's not used 
+as it's very restrictive. Where as `NoopHostnameVerifier()` doesn't verify host 
 name at all.  
 
 ### Create RestTemplate
@@ -233,7 +233,7 @@ folder.
 folder.
 
 ### Run Server
-To start the server, run the executable jar from the command,
+To start the server, run the executable jar from the command:
 
 ```
 java -jar server/target/spring-tls-server-1.0.0.jar
@@ -253,7 +253,7 @@ the server swagger UI page at `https://localhost:8443/swagger-ui.html`.
 ![](./img/server.png)
 
 ### Run Client
-Similarly, run the executable jar from the command to start the client,
+Similarly, run the executable jar from the command to start the client:
 
 ```
 java -jar client/target/spring-tls-client-1.0.0.jar
@@ -269,18 +269,21 @@ This should start the client at port `7081`. From the browser, you can access
 the client swagger UI page at `https://localhost:7081/swagger-ui.html`.
 
 ### Usage
-- Access the client swagger at `https://localhost:7081/swagger-ui.html`. 
+- Access the client Swagger UI at `https://localhost:7081/swagger-ui.html`. 
 
 - Make a POST request to create a book. The client in turn makes a request to the
 server to create a book.
+
 ![](./img/client-post-req.png)
 
 - If the request is successful, you should get a similar response as shown below:
+
 ![](./img/client-post-rsp.png)
 
-- Make a GET request to retreve the newly created book. The client in turn
- makes a request to the server to retrieve the book. The response is shown
- below:
+- Make a GET request to retrieve the newly created book. The client in turn
+ makes a request to the server to retrieve the book. An example response 
+ is shown below:
+ 
  ![](./img/client-get-req-rsp.png)
  
 
