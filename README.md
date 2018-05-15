@@ -304,11 +304,11 @@ server to create a book.
 [travis-badge]: https://travis-ci.org/indrabasak/spring-tls-example.svg?branch=master
 [travis-badge-url]: https://travis-ci.org/indrabasak/spring-tls-example/
 
-[sonarqube-badge]: https://sonarcloud.io/api/badges/gate?key=com.basaki:spring-tls-example
+[sonarqube-badge]: https://sonarcloud.io/api/project_badges/measure?project=com.basaki%3Aspring-tls-example&metric=alert_status
 [sonarqube-badge-url]: https://sonarcloud.io/dashboard/index/com.basaki:spring-tls-example 
 
-[technical-debt-ratio-badge]: https://sonarcloud.io/api/badges/measure?key=com.basaki:spring-tls-example&metric=sqale_debt_ratio
+[technical-debt-ratio-badge]: https://sonarcloud.io/api/project_badges/measure?project=com.basaki%3Aspring-tls-example&metric=sqale_index
 [technical-debt-ratio-badge-url]: https://sonarcloud.io/dashboard/index/com.basaki:spring-tls-example 
 
-[coverage-badge]: https://sonarcloud.io/api/badges/measure?key=com.basaki:spring-tls-example&metric=coverage
+[coverage-badge]: https://sonarcloud.io/api/project_badges/measure?project=com.basaki%3Aspring-tls-example&metric=coverage
 [coverage-badge-url]: https://sonarcloud.io/dashboard/index/com.basaki:spring-tls-example
