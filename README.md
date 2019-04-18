@@ -240,17 +240,17 @@ mvn clean install
 
 This should build the following Spring Boot jars:
 
-- The server jar, `spring-tls-server-1.0.0.jar`, located in `server/target`
+- The server jar, `spring-tls-server-1.1.0.jar`, located in `server/target`
 folder.
 
-- The client jar, `spring-tls-client-1.0.0.jar`, located in `client/target`
+- The client jar, `spring-tls-client-1.1.0.jar`, located in `client/target`
 folder.
 
 ### Run Server
 To start the server, run the executable jar from the command:
 
 ```bash
-java -jar server/target/spring-tls-server-1.0.0.jar
+java -jar server/target/spring-tls-server-1.1.0.jar
 
 ...
 018-04-07 20:28:06.534  INFO 3379 --- [           main] d.s.w.p.DocumentationPluginsBootstrapper : Context refreshed
@@ -270,7 +270,7 @@ the server swagger UI page at `https://localhost:8443/swagger-ui.html`.
 Similarly, run the executable jar from the command to start the client:
 
 ```bash
-java -jar client/target/spring-tls-client-1.0.0.jar
+java -jar client/target/spring-tls-client-1.1.0.jar
 
 ...
 und 1 custom documentation plugin(s)

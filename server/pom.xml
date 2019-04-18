@@ -7,11 +7,11 @@
     <parent>
         <groupId>com.basaki</groupId>
         <artifactId>spring-tls-example</artifactId>
-        <version>1.0.0</version>
+        <version>1.1.0</version>
     </parent>
 
     <artifactId>spring-tls-server</artifactId>
-    <version>1.0.0</version>
+    <version>1.1.0</version>
     <name>server</name>
 
     <dependencies>
@@ -47,13 +47,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
-
-        <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-core</artifactId>
-            <version>5.0.2.RELEASE</version>
-        </dependency>
-
     </dependencies>
 
     <build>
